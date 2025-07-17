@@ -67,6 +67,7 @@ const loginUser = asyncHandler(async (req, res) => {
     }
     const accessToken =  await generateAccessToken(logUser);
     const refreshToken = await generateRefreshToken(logUser);
+    
     const accessTokenOption = {
         httpOnly: true,
         secure: process.env.NODE_ENV === "production",
