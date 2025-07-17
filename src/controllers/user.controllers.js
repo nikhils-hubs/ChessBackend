@@ -7,7 +7,7 @@ import { generateAccessToken, generateRefreshToken } from "../utils/TokenGenerat
 
 
 
-const registerUser = asyncHandler(async (req, res, error) => {
+const registerUser = asyncHandler (async (req, res, error) => {
     const { username, email, password } = req.body;
     if (!username) {
         throw new apiError(401, "username required")

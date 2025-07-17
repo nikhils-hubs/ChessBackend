@@ -31,8 +31,11 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
 // IMPORTING THE ROUTES
-import userRoute from "./routes/user.routes.js"
-app.use("/api/v1/users", userRoute)
+import userRoutes from "./routes/user.routes.js"
+import chessRoutes from "./routes/chess.routes.js";
+
+app.use("/api/v1/users", userRoutes)
+app.use("/api/v1/chess", chessRoutes);
 
 // error handling 
 const createVersionRoute = (route, version = "v1") => "/api/" + version + "/" + route;
