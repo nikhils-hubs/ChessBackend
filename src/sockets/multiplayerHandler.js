@@ -19,6 +19,9 @@ function createGame(io, socket) {
                     movehistory: [],
                 }
             })
+
+
+
             const roomId = `game_${newGame.id}`
             socket.join(roomId)
             socket.emit("gameCreated", {
@@ -110,6 +113,10 @@ function joinGame(io, socket) {
         }
     })
 }
+
+
+
+
 export {
     createGame,
     joinGame
