@@ -1,7 +1,7 @@
-import { gameState, botMove } from "../bots/EasyBot.js"
-import { asyncHandler } from "../utils/asyncHandler.js"
-import { apiResponse } from "../utils/apiResponse.js"
-import { playerMove } from "./playerMove.js"
+import { gameState, botMove } from "../../bots/EasyBot.js"
+import { asyncHandler } from "../../utils/asyncHandler.js"
+import { apiResponse } from "../../utils/apiResponse.js"
+import { playerMove } from "../playerMove.js"
 
 const playMove = asyncHandler(async (req, res) => {
     const { move } = req.body;

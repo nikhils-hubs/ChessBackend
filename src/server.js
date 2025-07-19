@@ -2,6 +2,7 @@ import { app } from "./app.js";
 import dotenv from "dotenv"
 import http from "http";
 import { Server } from "socket.io";
+import {socketMain} from './sockets/socket.io.js';
 
 dotenv.config();
 
@@ -19,13 +20,14 @@ io.on("connection", (socket) => {
 
     socket.on("move", (data) => {
         console.log("move detected: ", data);
-        socket.boardcast.emit("opponent move", data)
+        socket.broadcast.emit("opponent move", data)
     });
     socket.on("disconnect", () => {
         console.log("server disconnected: ", socket.id);
 
     });
 });
+socketMain(io)
 
 try {
     console.log("server is about to start");

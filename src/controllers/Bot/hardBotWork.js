@@ -1,8 +1,8 @@
 import { Chess } from "chess.js";
-import { apiError } from "../utils/apiError.js"
-import { getBestMove } from "../bots/hardBot.js"
-import { asyncHandler } from "../utils/asyncHandler.js";
-import { apiResponse } from "../utils/apiResponse.js";
+import { apiError } from "../../utils/apiError.js"
+import { getBestMove } from "../../bots/hardBot.js"
+import { asyncHandler } from "../../utils/asyncHandler.js";
+import { apiResponse } from "../../utils/apiResponse.js";
 
 const hardBotvsPlayer = asyncHandler(async (req, res) => {
     let { fen, move, depth } = req.body // if want to check cookies then use let otherwise const 

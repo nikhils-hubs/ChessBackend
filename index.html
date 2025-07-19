@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Socket.IO Chess Game Tester</title>
+  <script src="https://cdn.socket.io/4.5.4/socket.io.min.js"></script>
+  <style>
+    body {
+      font-family: "Segoe UI", sans-serif;
+      background-color: #f8f9fa;
+      margin: 0;
+      padding: 2rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      color: #333;
+    }
+
+    h2 {
+      margin-bottom: 1rem;
+      color: #111;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 500px;
+      background-color: #fff;
+      padding: 1.5rem;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    label {
+      font-weight: 600;
+      margin-bottom: 0.25rem;
+      display: block;
+    }
+
+    input {
+      width: 100%;
+      padding: 0.5rem;
+      font-size: 1rem;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+    }
+
+    button {
+      padding: 0.6rem 1rem;
+      font-size: 1rem;
+      background-color: #007bff;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background-color 0.2s ease-in-out;
+    }
+
+    button:hover {
+      background-color: #0056b3;
+    }
+
+    #log {
+      margin-top: 2rem;
+      background: #212529;
+      color: #e9ecef;
+      padding: 1rem;
+      border-radius: 6px;
+      width: 100%;
+      max-width: 500px;
+      height: 200px;
+      overflow-y: auto;
+      font-family: monospace;
+      font-size: 0.9rem;
+    }
+  </style>
+</head>
+<body>
+  <h2>♟️ Chess Socket Tester</h2>
+
+  <div class="container">
+    <div>
+      <label>User ID</label>
+      <input id="userId" placeholder="Enter your user ID" />
+    </div>
+
+    <button onclick="createGame()">Create Game</button>
+
+    <div>
+      <label>Game Code</label>
+      <input id="gameCode" placeholder="Enter code to join" />
+      <button onclick="joinGame()">Join Game</button>
+    </div>
+
+    <div>
+      <label>Move</label>
+      <input id="move" placeholder="e.g., e2e4" />
+      <button onclick="sendMove()">Send Move</button>
+    </div>
+
+    <div>
+      <label>Winner ID</label>
+      <input id="winnerId" placeholder="User ID of winner" />
+      <label>Result</label>
+      <input id="result" placeholder="1-0 / 0-1 / draw" />
+      <button onclick="endGame()">End Game</button>
+    </div>
+  </div>
+
+  <pre id="log"></pre>
+
+  <script>
+    const socket = io("http://localhost:8005"); // Update if your server is hosted
+
+    const log = (...args) => {
+      const el = document.getElementById("log");
+      el.textContent += args.join(" ") + "\n";
+      el.scrollTop = el.scrollHeight;
+    };
+
+    socket.on("connect", () => {
+      log("✅ Connected with ID:", socket.id);
+    });
+
+    socket.on("gameCreated", (data) => {
+      log("🎮 Game Created:", JSON.stringify(data, null, 2));
+      document.getElementById("gameCode").value = data.gameCode;
+    });
+
+    socket.on("move", (move) => {
+      log("➡️ Move received:", JSON.stringify(move));
+    });
+
+    socket.on("gameover", (data) => {
+      log("🏁 Game Over:", JSON.stringify(data));
+    });
+
+    socket.on("error", (err) => {
+      log("❌ Error:", err);
+    });
+
+    function createGame() {
+      const userId = document.getElementById("userId").value;
+      socket.emit("creategame", { userId: Number(userId) });
+    }
+
+    function joinGame() {
+      const userId = document.getElementById("userId").value;
+      const gameCode = document.getElementById("gameCode").value;
+      socket.emit("joinGame", { gameId: gameCode, userId: Number(userId) });
+    }
+
+    function sendMove() {
+      const gameId = document.getElementById("gameCode").value;
+      const move = document.getElementById("move").value;
+      socket.emit("move", { gameId, move });
+    }
+
+    function endGame() {
+      const gameId = document.getElementById("gameCode").value;
+      const winnerId = document.getElementById("winnerId").value;
+      const result = document.getElementById("result").value;
+      socket.emit("gameover", {
+        gameId,
+        winnerId: Number(winnerId),
+        result,
+      });
+    }
+  </script>
+</body>
+</html>

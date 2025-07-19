@@ -7,23 +7,18 @@ datasource db {
   url      = env("DATABASE_URI")
 }
 
-
-
-
-/* 
-              MODELS 
-                    FOR   
-                        CHESS
-                              BACKEND
-
-
-*/
-
+/**
+ * MODELS
+ * FOR
+ * CHESS
+ * BACKEND
+ */
 
 model User {
   id         Int      @id @default(autoincrement())
   username   String   @unique
   email      String   @unique
+  rating     Int      @default(200)
   password   String
   createdAt  DateTime @default(now())
   whiteGames Game[]   @relation("whiteGames")
@@ -31,11 +26,17 @@ model User {
 }
 
 model Game {
-  id        Int      @id @default(autoincrement())
-  result    String
-  whiteId   Int
-  blackId   Int
-  white     User     @relation("whiteGames", fields: [whiteId], references: [id])
-  black     User     @relation("blackGames", fields: [blackId], references: [id])
-  createdAt DateTime @default(now())
+  id          Int      @id @default(autoincrement())
+  gamecode    String   @unique
+  status      String   @default("waiting")
+  result      String
+  whiteId     Int? //
+  blackId     Int? //
+  white       User?    @relation("whiteGames", fields: [whiteId], references: [id])
+  black       User?    @relation("blackGames", fields: [blackId], references: [id])
+  fen         String   @default("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1")
+  movehistory Json     @default("[]")
+  winnerID    Int?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
 }
