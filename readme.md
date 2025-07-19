@@ -67,6 +67,4 @@ POST   /api/game/join    // Join existing game by gameCode
 POST   /api/game/move    // Make a move
 GET    /api/game/state   // Get game status
 
-🧑‍💻 Author
-Nikhil Singh
 
