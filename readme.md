@@ -8,7 +8,6 @@ A backend-only multiplayer chess engine built with **Node.js**, **Express**, **P
 
 - ✅ User Authentication (JWT + Bcrypt)
 - ♟️ Play vs Bot (Minimax Algorithm + [chess.js](https://github.com/jhlywa/chess.js))
-- 👥 Real-time Multiplayer Support via Socket.IO
 - 🧠 Game Logic & Move Validation (FEN, PGN, legal moves)
 - 🗃️ PostgreSQL with Prisma ORM for clean DB relations
 - 📜 Tracks move history, player turns, status, and results
@@ -66,5 +65,6 @@ POST   /api/game/create  // Create new game
 POST   /api/game/join    // Join existing game by gameCode
 POST   /api/game/move    // Make a move
 GET    /api/game/state   // Get game status
+
 
 
